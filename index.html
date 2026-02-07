@@ -98,13 +98,15 @@
   }
 
   .heart {
-    position: fixed;
-    bottom: -20px;
-    font-size: 22px;
-    animation: floatHearts 6s linear infinite;
-    opacity: 0.8;
-    z-index: 1;
-  }
+  position: fixed;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatHearts 6s linear infinite;
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;   /* THIS fixes buttons */
+}
+
 
   @keyframes floatHearts {
     from { transform: translateY(0); }
