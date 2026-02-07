@@ -128,7 +128,6 @@
 
 <script>
   const card = document.getElementById("card");
-  const noBtn = document.getElementById("no");
 
   const questions = [
     {
@@ -140,33 +139,49 @@
       text: "Do you promise to keep smiling like this forever?",
     },
     {
-      title: "Question 3 💘",
-      text: "Will you be my Valentine? ❤️"
+      title: "Question 3 🌸",
+      text: "Do you enjoy the time we spend together?",
     },
-   {
-    title: "Question 4 🌙",
-    text: "Do you like our late night talks and laughs?",
-  },
-  {
-    title: "Question 5 💕",
-    text: "Do you believe we make a great team together?",
-  }
+    {
+      title: "Question 4 🌙",
+      text: "Do you like our late night talks and laughs?",
+    },
+    {
+      title: "Question 5 💕",
+      text: "Do you believe we make a great team together?",
+    },
+    {
+      title: "Final Question 💘",
+      text: "Will you be my Valentine? ❤️"
+    }
   ];
 
   let step = 0;
 
-  document.body.addEventListener("mouseover", (e) => {
+  // Move NO button (works every time)
+  function moveNoButton(btn) {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 120);
+    btn.style.position = "absolute";
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+  }
+
+  // Event delegation so new buttons always work
+  document.addEventListener("mouseover", function(e) {
     if (e.target.id === "no") {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 120);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      moveNoButton(e.target);
     }
   });
 
-  document.body.addEventListener("click", (e) => {
+  document.addEventListener("click", function(e) {
+    if (e.target.id === "no") {
+      moveNoButton(e.target);
+    }
+
     if (e.target.id === "yes") {
       step++;
+
       if (step < questions.length) {
         card.innerHTML = `
           <h1>${questions[step].title}</h1>
@@ -189,29 +204,25 @@
       <img src="her.jpg">
       <p>
         You just made my heart the happiest 💖<br>
-        Happy Valentine’s Day Akishga❤️
+        Happy Valentine’s Day ❤️
       </p>
     `;
     spawnHearts();
   }
 
-  setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "floating-heart";
-  heart.innerText = "💖";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (Math.random() * 15 + 15) + "px";
-
-  document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 6000);
-}, 500);
-
+  function spawnHearts() {
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
     }
   }
 </script>
+
 
 </body>
 </html>
