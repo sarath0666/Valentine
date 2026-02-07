@@ -9,17 +9,18 @@
   * { box-sizing: border-box; }
 
   body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(-45deg, #ff6a88, #ff99ac, #fad0c4, #ffd1ff);
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
-    overflow: hidden;
-  }
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(270deg, #ff758c, #ff7eb3, #ffb199, #ffd1ff);
+  background-size: 800% 800%;
+  animation: gradientBG 15s ease infinite;
+  overflow: hidden;
+}
+
 
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -27,18 +28,25 @@
     100% { background-position: 0% 50%; }
   }
 
-  .card {
-    position: relative;
-    z-index: 10;
-    background: white;
-    width: 90%;
-    max-width: 380px;
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-    animation: popIn 0.6s ease;
+  .floating-heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
   }
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
 
   @keyframes popIn {
     from { transform: scale(0.8); opacity: 0; }
@@ -187,15 +195,20 @@
     spawnHearts();
   }
 
-  function spawnHearts() {
-    for (let i = 0; i < 40; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
+  setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "floating-heart";
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 15 + 15) + "px";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}, 500);
+
     }
   }
 </script>
