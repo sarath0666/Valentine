@@ -1,7 +1,9 @@
 <script>
 const music = document.getElementById("music");
+const questionEl = document.getElementById("question");
+const textEl = document.getElementById("text");
 const card = document.getElementById("card");
-const final = document.getElementById("final");
+const finalCard = document.getElementById("final");
 
 const herName = "YOUR GIRL'S NAME ❤️";
 
@@ -23,38 +25,42 @@ const texts = [
   "Will you be my Valentine? 💖"
 ];
 
-function attachEvents() {
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
+// YES BUTTON
+document.addEventListener("click", function(e) {
+  if (e.target && e.target.id === "yesBtn") {
 
-  if (yesBtn) {
-    yesBtn.onclick = () => {
-      if (step === 0) music.play();
+    if (step === 0) {
+      music.play().catch(()=>{}); // prevents autoplay errors
+    }
 
-      step++;
+    step++;
 
-      if (step < questions.length) {
-        document.getElementById("question").textContent = questions[step];
-        document.getElementById("text").textContent = texts[step];
-      } else {
-        card.style.display = "none";
-        final.style.display = "block";
-      }
-    };
+    if (step < questions.length) {
+      questionEl.textContent = questions[step];
+      textEl.textContent = texts[step];
+    } else {
+      card.style.display = "none";
+      finalCard.style.display = "block";
+    }
   }
+});
 
-  if (noBtn) {
-    noBtn.onmouseover = moveNo;
-    noBtn.onclick = moveNo;
+// NO BUTTON (mobile + desktop)
+document.addEventListener("mouseover", function(e) {
+  if (e.target && e.target.id === "noBtn") {
+    moveNo(e.target);
   }
-}
+});
 
-function moveNo() {
-  const noBtn = document.getElementById("noBtn");
-  const x = Math.random() * 250 - 125;
-  const y = Math.random() * 250 - 125;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
-}
+document.addEventListener("click", function(e) {
+  if (e.target && e.target.id === "noBtn") {
+    moveNo(e.target);
+  }
+});
 
-attachEvents();
+function moveNo(btn) {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  btn.style.transform = `translate(${x}px, ${y}px)`;
+}
 </script>
