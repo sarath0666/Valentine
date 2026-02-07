@@ -1,66 +1,123 @@
-<script>
-const music = document.getElementById("music");
-const questionEl = document.getElementById("question");
-const textEl = document.getElementById("text");
-const card = document.getElementById("card");
-const finalCard = document.getElementById("final");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
 
-const herName = "YOUR GIRL'S NAME ❤️";
-
-let step = 0;
-
-const questions = [
-  `Hey ${herName}`,
-  "Do you know how special you are to me?",
-  "Do you promise to keep smiling like this forever?",
-  "Will you go on many cute dates with me?",
-  "Okay… final question 😳"
-];
-
-const texts = [
-  "I made this just for you 💕",
-  "Because you mean the world to me 🌎",
-  "Because your smile is my favorite thing 😊",
-  "Food, laughs, memories, everything 💑",
-  "Will you be my Valentine? 💖"
-];
-
-// YES BUTTON
-document.addEventListener("click", function(e) {
-  if (e.target && e.target.id === "yesBtn") {
-
-    if (step === 0) {
-      music.play().catch(()=>{}); // prevents autoplay errors
-    }
-
-    step++;
-
-    if (step < questions.length) {
-      questionEl.textContent = questions[step];
-      textEl.textContent = texts[step];
-    } else {
-      card.style.display = "none";
-      finalCard.style.display = "block";
-    }
-  }
-});
-
-// NO BUTTON (mobile + desktop)
-document.addEventListener("mouseover", function(e) {
-  if (e.target && e.target.id === "noBtn") {
-    moveNo(e.target);
-  }
-});
-
-document.addEventListener("click", function(e) {
-  if (e.target && e.target.id === "noBtn") {
-    moveNo(e.target);
-  }
-});
-
-function moveNo(btn) {
-  const x = Math.random() * 200 - 100;
-  const y = Math.random() * 200 - 100;
-  btn.style.transform = `translate(${x}px, ${y}px)`;
+<style>
+body {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(-45deg,#ff758c,#ff7eb3,#fad0c4,#ffd1ff);
+  background-size:400% 400%;
+  animation:bg 10s ease infinite;
 }
+
+@keyframes bg {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+img{
+  width:100%;
+  border-radius:15px;
+  margin:10px 0;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+  margin:5px;
+}
+
+#yesBtn{ background:#ff4d6d; color:white; }
+#noBtn{ background:#ddd; position:relative; }
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <img src="assets/her.jpg" alt="Her photo">
+  <h2 id="question">Hey ❤️</h2>
+  <p id="text">I made something special for you…</p>
+
+  <button id="yesBtn">Yes 😊</button>
+  <button id="noBtn">No 😈</button>
+</div>
+
+<script>
+const music=document.getElementById("music");
+const question=document.getElementById("question");
+const text=document.getElementById("text");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+
+const questions=[
+"Do you know how special you are to me?",
+"Do you promise to keep smiling forever?",
+"Will you go on cute dates with me?",
+"Final question… Will you be my Valentine? ❤️"
+];
+
+const texts=[
+"Because you mean a lot to me 💕",
+"Your smile is my favorite 😊",
+"Food, laughs and memories together 💑",
+"I really hope you say yes 💖"
+];
+
+let step=0;
+
+// YES button
+yesBtn.onclick=function(){
+  if(step===0){ music.play().catch(()=>{}); }
+
+  if(step<questions.length){
+    question.textContent=questions[step];
+    text.textContent=texts[step];
+    step++;
+  }else{
+    question.textContent="You said YES 💕";
+    text.textContent="You just made me the happiest person ❤️";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+  }
+};
+
+// NO button (works on mobile and desktop)
+function moveNo(){
+  const x=Math.random()*150-75;
+  const y=Math.random()*150-75;
+  noBtn.style.transform=`translate(${x}px,${y}px)`;
+}
+
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("click",moveNo);
 </script>
+
+</body>
+</html>
