@@ -133,20 +133,23 @@ const questions = [
 let step = 0;
 
 // TYPEWRITER
-function typeText(element, text, speed = 40) {
-  element.innerHTML = '<span id="typed"></span><span class="cursor"></span>';
-  const typed = element.querySelector("#typed");
+function typeText(element, text, speed = 80) {
+  element.innerHTML = '<span class="typed"></span><span class="cursor"></span>';
+  const typed = element.querySelector(".typed");
 
   let i = 0;
+
   function typing() {
     if (i < text.length) {
-      typed.textContent += text.charAt(i);
+      typed.textContent += text[i];
       i++;
       setTimeout(typing, speed);
     }
   }
+
   typing();
 }
+
 
 // MOVE NO BUTTON
 function moveNo(btn) {
