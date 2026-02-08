@@ -6,127 +6,114 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-  body {
+body {
   margin: 0;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(270deg, #ff758c, #ff7eb3, #ffb199, #ffd1ff);
-  background-size: 800% 800%;
-  animation: gradientBG 15s ease infinite;
+  background: linear-gradient(-45deg, #ff6a88, #ff99ac, #fad0c4, #ffd1ff);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
   overflow: hidden;
 }
 
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+.card {
+  position: relative;
+  z-index: 10;
+  background: white;
+  width: 90%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
 
-  .floating-emoji {
+h1 { color: #ff3e6c; }
+p { color: #555; min-height: 40px; }
+
+img {
+  width: 200px;
+  border-radius: 18px;
+  margin: 15px 0;
+}
+
+button {
+  padding: 12px 26px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+#yes {
+  background: #ff3e6c;
+  color: white;
+  margin-right: 10px;
+}
+
+#no {
+  background: #ccc;
+  position: absolute;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background: #ff3e6c;
+  margin-left: 4px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,50%,100% { opacity: 1; }
+  25%,75% { opacity: 0; }
+}
+
+.floating-emoji {
   position: fixed;
   bottom: -30px;
   font-size: 22px;
   opacity: 0.7;
   animation: floatUp linear forwards;
-  pointer-events: none;   /* important so buttons still work */
+  pointer-events: none;
   z-index: 1;
 }
 
 @keyframes floatUp {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-110vh);
-    opacity: 0;
-  }
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-110vh); opacity: 0; }
 }
 
-
-
-  @keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  h1 {
-    color: #ff3e6c;
-    margin-bottom: 10px;
-  }
-
-  p {
-    color: #555;
-    margin-bottom: 15px;
-  }
-
-  img {
-    width: 200px;
-    border-radius: 18px;
-    margin: 15px 0;
-  }
-
-  .buttons {
-    margin-top: 20px;
-  }
-
-  button {
-    padding: 12px 26px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  button:hover {
-    transform: scale(1.1);
-  }
-
-  #yes {
-    background: #ff3e6c;
-    color: white;
-    margin-right: 10px;
-  }
-
-  #no {
-    background: #ccc;
-    position: absolute;
-  }
-
-  .heart {
+.heart {
   position: fixed;
   bottom: -20px;
   font-size: 22px;
-  animation: floatHearts 6s linear infinite;
-  opacity: 0.8;
-  z-index: 1;
-  pointer-events: none;   /* THIS fixes buttons */
+  animation: floatUp 6s linear infinite;
+  pointer-events: none;
 }
-
-
-  @keyframes floatHearts {
-    from { transform: translateY(0); }
-    to { transform: translateY(-110vh); }
-  }
 </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-  <h1>Test 💖</h1>
+  <h1>Hey Beautiful 💖</h1>
   <img src="her.jpg" alt="Her Photo">
-  <p>I have something important to ask you 😌</p>
+  <p id="questionText">I have something important to ask you 😌</p>
 
   <div class="buttons">
-    <button id="yes">Yes 💕</button>
+    <button id="yes">Okay 💕</button>
     <button id="no">No 🙈</button>
   </div>
 </div>
@@ -135,41 +122,47 @@
 const card = document.getElementById("card");
 
 const questions = [
-  {
-    title: "Question 1 💭",
-    text: "Do you know how special you are to me?",
-  },
-  {
-    title: "Question 2 💫",
-    text: "Do you promise to keep smiling like this forever?",
-  },
-  {
-    title: "Question 3 🌸",
-    text: "Do you enjoy the time we spend together?",
-  },
-  {
-    title: "Question 4 🌙",
-    text: "Do you like our late night talks and laughs?",
-  },
-  {
-    title: "Question 5 💕",
-    text: "Do you believe we make a great team together?",
-  },
-  {
-    title: "Final Question 💘",
-    text: "Will you be my Valentine? ❤️"
-  }
+  "Do you know how special you are to me?",
+  "Do you promise to keep smiling like this forever?",
+  "Do you enjoy the time we spend together?",
+  "Do you like our late night talks and laughs?",
+  "Do you believe we make a great team together?",
+  "Will you be my Valentine? ❤️"
 ];
 
 let step = 0;
 
-// attach events to buttons
-function attachButtonEvents() {
+// TYPEWRITER
+function typeText(element, text, speed = 40) {
+  element.innerHTML = '<span id="typed"></span><span class="cursor"></span>';
+  const typed = element.querySelector("#typed");
+
+  let i = 0;
+  function typing() {
+    if (i < text.length) {
+      typed.textContent += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+  typing();
+}
+
+// MOVE NO BUTTON
+function moveNo(btn) {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 120);
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}
+
+// ATTACH BUTTON EVENTS
+function attachEvents() {
   const yesBtn = document.getElementById("yes");
   const noBtn = document.getElementById("no");
 
   if (yesBtn) {
-    yesBtn.onclick = nextQuestion;
+    yesBtn.onclick = () => nextQuestion();
   }
 
   if (noBtn) {
@@ -178,64 +171,44 @@ function attachButtonEvents() {
   }
 }
 
- function typeText(element, text, speed = 35) {
-  element.textContent = "";
-  let i = 0;
-
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
-    }
-  }
-
-  typing();
-}
-
-function moveNo(btn) {
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 120);
-  btn.style.position = "absolute";
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
-}
-
-
+// NEXT QUESTION
 function nextQuestion() {
   step++;
 
   if (step < questions.length) {
     card.innerHTML = `
-      <h1>${questions[step].title}</h1>
+      <h1>Question ${step} 💭</h1>
       <img src="her.jpg">
-      <p>${questions[step].text}</p>
+      <p id="questionText"></p>
       <div class="buttons">
         <button id="yes">Yes 💖</button>
         <button id="no">No 🙈</button>
       </div>
     `;
 
-    // reattach events to new buttons
-    attachButtonEvents();
+    typeText(document.getElementById("questionText"), questions[step], 40);
+    attachEvents();
 
   } else {
     showFinal();
   }
 }
 
+// FINAL SCREEN
 function showFinal() {
   card.innerHTML = `
     <h1>You said YES 💕</h1>
     <img src="her.jpg">
     <p>
-      You just made my heart the happiest 💖<br>
+      From the day I met you,<br>
+      everything became brighter ✨<br><br>
       Happy Valentine’s Day ❤️
     </p>
   `;
   spawnHearts();
 }
 
+// HEART ANIMATION
 function spawnHearts() {
   for (let i = 0; i < 40; i++) {
     const heart = document.createElement("div");
@@ -245,31 +218,25 @@ function spawnHearts() {
     heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 6000);
-   const emojis = ["💖","💕","💘","✨","🌸","💫"];
+  }
+}
+
+attachEvents();
+
+// FLOATING EMOJIS
+const emojis = ["💖","💕","✨","🌸","💘"];
 
 setInterval(() => {
   const emoji = document.createElement("div");
   emoji.className = "floating-emoji";
-  emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-  emoji.style.left = Math.random() * 100 + "vw";
-  emoji.style.fontSize = (Math.random() * 15 + 18) + "px";
-  emoji.style.animationDuration = (Math.random() * 4 + 4) + "s";
-
+  emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  emoji.style.left = Math.random()*100+"vw";
+  emoji.style.fontSize = (Math.random()*15+18)+"px";
+  emoji.style.animationDuration = (Math.random()*4+4)+"s";
   document.body.appendChild(emoji);
-
-  setTimeout(() => {
-    emoji.remove();
-  }, 8000);
-}, 600);
-
-  }
-}
-
-// attach events to first screen buttons
-attachButtonEvents();
+  setTimeout(()=>emoji.remove(),8000);
+},700);
 </script>
-
 
 </body>
 </html>
