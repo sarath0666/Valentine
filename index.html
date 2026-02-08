@@ -36,14 +36,7 @@ body {
   padding: 30px;
   border-radius: 25px;
   text-align: center;
-  box-shadow: 0 0 25px rgba(255, 80, 120, 0.4),
-              0 25px 50px rgba(0,0,0,0.25);
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
 }
 
 h1 { color: #ff3e6c; }
@@ -67,13 +60,6 @@ button {
   background: #ff3e6c;
   color: white;
   margin-right: 10px;
-  animation: pulse 1.8s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
 }
 
 #no {
@@ -88,3 +74,159 @@ button {
   margin-left: 4px;
   animation: blink 1s infinite;
 }
+
+@keyframes blink {
+  0%,50%,100% { opacity: 1; }
+  25%,75% { opacity: 0; }
+}
+
+.floating-emoji {
+  position: fixed;
+  bottom: -30px;
+  font-size: 22px;
+  opacity: 0.7;
+  animation: floatUp linear forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatUp 6s linear infinite;
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1>Hey Beautiful 💖</h1>
+  <img src="her.jpg" alt="Her Photo">
+  <p id="questionText">I have something important to ask you 😌</p>
+
+  <div class="buttons">
+    <button id="yes">Okay 💕</button>
+    <button id="no">No 🙈</button>
+  </div>
+</div>
+
+<script>
+const card = document.getElementById("card");
+
+const questions = [
+  "Do you know how special you are to me?",
+  "Do you promise to keep smiling like this forever?",
+  "Do you enjoy the time we spend together?",
+  "Do you like our late night talks and laughs?",
+  "Do you believe we make a great team together?",
+  "Will you be my Valentine? ❤️"
+];
+
+let step = 0;
+
+function typeText(element, text, speed = 60) {
+  element.innerHTML = '<span class="typed"></span><span class="cursor"></span>';
+  const typed = element.querySelector(".typed");
+
+  let i = 0;
+  function typing() {
+    if (i < text.length) {
+      typed.textContent += text[i];
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+  typing();
+}
+
+function moveNo(btn) {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 120);
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}
+
+function attachEvents() {
+  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
+
+  if (yesBtn) yesBtn.onclick = nextQuestion;
+
+  if (noBtn) {
+    noBtn.onmouseover = () => moveNo(noBtn);
+    noBtn.onclick = () => moveNo(noBtn);
+  }
+}
+
+function nextQuestion() {
+  step++;
+
+  if (step < questions.length) {
+    card.innerHTML = `
+      <h1>Question ${step} 💭</h1>
+      <img src="her.jpg">
+      <p id="questionText"></p>
+      <div class="buttons">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No 🙈</button>
+      </div>
+    `;
+
+    typeText(document.getElementById("questionText"), questions[step], 60);
+    attachEvents();
+  } else {
+    showFinal();
+  }
+}
+
+function showFinal() {
+  card.innerHTML = `
+    <h1>You said YES 💕</h1>
+    <img src="her.jpg">
+    <p>
+      From the day I met you,<br>
+      everything became brighter ✨<br><br>
+      Happy Valentine’s Day ❤️
+    </p>
+  `;
+  spawnHearts();
+}
+
+function spawnHearts() {
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+}
+
+attachEvents();
+
+const emojis = ["💖","💕","✨","🌸","💘","⭐","💫"];
+
+setInterval(() => {
+  const emoji = document.createElement("div");
+  emoji.className = "floating-emoji";
+  emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  emoji.style.left = Math.random()*100+"vw";
+  emoji.style.fontSize = (Math.random()*15+18)+"px";
+  emoji.style.animationDuration = (Math.random()*4+4)+"s";
+  document.body.appendChild(emoji);
+  setTimeout(()=>emoji.remove(),8000);
+},700);
+</script>
+
+</body>
+</html>
