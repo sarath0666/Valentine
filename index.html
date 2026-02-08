@@ -163,6 +163,75 @@ function moveNo(btn) {
   btn.style.top = y + "px";
 }
 
-function attachEvents() {
-  const yesBtn = document.getElementById("yes");
-  const noBtn = document.getElementByI
+function nextQuestion() {
+  step++;
+
+  if (step < questions.length) {
+    card.innerHTML = `
+      <h1>Question ${step} 💭</h1>
+      <img src="${images[step]}" alt="Photo">
+      <p id="questionText"></p>
+      <div class="buttons">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No 🙈</button>
+      </div>
+    `;
+
+    typeText(document.getElementById("questionText"), questions[step], 60);
+  } else {
+    showFinal();
+  }
+}
+
+function showFinal() {
+  card.innerHTML = `
+    <h1>You said YES 💕</h1>
+    <img src="${images[images.length - 1]}" alt="Photo">
+    <p>
+      From the day I met you,<br>
+      everything became brighter ✨<br><br>
+      Happy Valentine’s Day ❤️
+    </p>
+  `;
+  spawnHearts();
+}
+
+function spawnHearts() {
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+}
+
+/* EVENT DELEGATION (buttons always work) */
+document.addEventListener("click", function(e) {
+  if (e.target.id === "yes") nextQuestion();
+  if (e.target.id === "no") moveNo(e.target);
+});
+
+document.addEventListener("mouseover", function(e) {
+  if (e.target.id === "no") moveNo(e.target);
+});
+
+/* Floating emojis */
+const emojis = ["💖","💕","✨","🌸","💘","⭐","💫"];
+
+setInterval(() => {
+  const emoji = document.createElement("div");
+  emoji.className = "floating-emoji";
+  emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  emoji.style.left = Math.random()*100+"vw";
+  emoji.style.fontSize = (Math.random()*15+18)+"px";
+  emoji.style.animationDuration = (Math.random()*4+4)+"s";
+  document.body.appendChild(emoji);
+  setTimeout(()=>emoji.remove(),8000);
+},700);
+</script>
+
+</body>
+</html>
