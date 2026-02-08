@@ -109,7 +109,7 @@ button {
 
 <div class="card" id="card">
   <h1>Hey Beautiful 💖</h1>
-  <img src="her.jpg" alt="Her Photo">
+  <img src="IMG_0180.jpeg" alt="Photo">
   <p id="questionText">I have something important to ask you 😌</p>
 
   <div class="buttons">
@@ -130,7 +130,7 @@ const questions = [
   "Will you be my Valentine? ❤️"
 ];
 
-  const images = [
+const images = [
   "IMG_0180.jpeg",
   "IMG_1617.png",
   "IMG_1619.png",
@@ -181,7 +181,7 @@ function nextQuestion() {
   if (step < questions.length) {
     card.innerHTML = `
       <h1>Question ${step} 💭</h1>
-      <img src="her.jpg">
+      <img src="${images[step]}">
       <p id="questionText"></p>
       <div class="buttons">
         <button id="yes">Yes 💖</button>
@@ -199,7 +199,7 @@ function nextQuestion() {
 function showFinal() {
   card.innerHTML = `
     <h1>You said YES 💕</h1>
-    <img src="her.jpg">
+    <img src="${images[images.length-1]}">
     <p>
       From the day I met you,<br>
       everything became brighter ✨<br><br>
